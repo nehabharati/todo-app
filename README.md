@@ -24,4 +24,4 @@ npm install
 npm start
 ```
 
-Live link: todo-app-inky.vercel.app
+Live link: [https://todo-app-assignment.vercel.app/](https://todo-app-assignment.vercel.app/)  
