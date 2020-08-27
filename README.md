@@ -3,7 +3,7 @@
 - User can add any number of items into the todo list
 - User can tick off the completed items and those items will be sent to the "Completed" column
 - User can sort the Todo items and completed items using the "Sort" button
-- User is allowed to enter only 20 characters fot every new todo item
+- User is allowed to enter only 20 characters for every new todo item
 - User can move the items around based on priority in both the lists using arrow marks
 
 ## Extra functionality
