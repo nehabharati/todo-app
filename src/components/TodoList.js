@@ -75,7 +75,7 @@ function TodoList(props) {
 
   return (
     <div>
-      <h2>Todo</h2>
+      {/* <h2>Todo</h2> */}
       <ul>
         {props.item.items.map((todo, index) => (
           <div className="todo-item-container" key={`${todo.id}-${todo.name}`}>

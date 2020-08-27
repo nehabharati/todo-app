@@ -82,7 +82,7 @@ function TodoList(props) {
 
   return (
     <div>
-      <h2>Completed</h2>
+      {/* <h2>Completed</h2> */}
       <ul>
         {props.item.completedItems.map((todo, index) => (
           <div className="todo-item-container" key={`${todo.id}-${todo.name}`}>

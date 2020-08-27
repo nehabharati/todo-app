@@ -66,6 +66,12 @@ button {
   font-size: 1rem;
 }
 
+.heading {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
 /* ToDoList component styles */
 .todo-item-container {
   display: flex;
@@ -86,7 +92,7 @@ ul {
   list-style: none;
   color: #8b98a7;
   padding: 0.5em 0;
-  width: 100px;
+  width: 150px;
 }
 
 .todo-item-container button {
@@ -104,6 +110,7 @@ h2 {
   font-size: 20px;
   color: #8b98a7;
   text-align: center;
+  position: sticky;
 }
 
 .arrows {

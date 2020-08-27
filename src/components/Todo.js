@@ -117,7 +117,6 @@ function Todo(props) {
               placeholder="Add a task"
               onChange={onChange}
               maxLength="20"
-              // size={40}
             />
           </div>
           <button type="submit">Add</button>
@@ -139,6 +138,10 @@ function Todo(props) {
           </button>
         </div>
       </form>
+      <div className="heading">
+        <h2>Todo</h2>
+        <h2>Completed</h2>
+      </div>
     </div>
   );
 }
