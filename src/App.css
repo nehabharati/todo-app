@@ -1,0 +1,95 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400&display=swap");
+
+body {
+  font-family: "Open Sans", sans-serif;
+}
+
+h1 {
+  font-weight: 300;
+  text-align: left;
+  font-size: 36px;
+  color: #444;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.items {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+/* Todo component styles */
+.todo-container {
+  display: flex;
+}
+
+.input-todo {
+  border: 1px solid #eee;
+  padding: 0.4em;
+}
+
+.input-todo img {
+  margin-right: 0.5em;
+}
+
+input {
+  font-size: 1rem;
+  border: none;
+  color: #8b98a7;
+}
+
+input::placeholder {
+  color: #0082d4;
+}
+
+input:focus,
+input:hover {
+  outline: none;
+}
+
+button {
+  background-color: #0082d4;
+  color: white;
+  border: none;
+  margin: 0 1em;
+  padding: 0 2em;
+  font-size: 1rem;
+}
+
+/* ToDoList component styles */
+.todo-item-container {
+  display: flex;
+  align-items: center;
+}
+
+ul {
+  /* width: 300px; */
+}
+
+.active-item {
+  display: flex;
+  justify-content: space-between;
+}
+
+.todo-item {
+  list-style: none;
+  color: #8b98a7;
+}
+
+input[type="checkbox"] {
+  transform: scale(1.3);
+  border-radius: 50px;
+  margin-right: 10px;
+}
+
+h2 {
+  font-weight: 400;
+  font-size: 20px;
+  color: #8b98a7;
+  text-align: center;
+}

@@ -1,0 +1,10 @@
+export const SET_ITEMS = "SET_ITEMS";
+export const ADD_ITEM = "ADD_ITEM";
+// export const DELETE_ITEM = "DELETE_ITEM";
+// export const ITEMS_LOADING = "ITEMS_LOADING";
+// export const UPDATE_ITEM = "UPDATE_ITEM";
+export const GET_SINGLE_ITEM = "GET_SINGLE_ITEM";
+export const TOGGLE_SORT = "TOGGLE_SORT";
+export const SET_COMPLETED_ITEMS = "SET_COMPLETED_ITEMS";
+// export const SET_ID = "SET_ID";
+export const REQUEST_SORT = "REQUEST_SORT";
