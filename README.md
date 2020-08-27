@@ -14,7 +14,7 @@
 
 ## To setup locally
 
-- clone the repository
+- Clone the repository
 
 ```javascript
 npm install
@@ -23,3 +23,5 @@ npm install
 ```javascript
 npm start
 ```
+
+Live link: todo-app-inky.vercel.app
