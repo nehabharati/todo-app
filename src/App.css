@@ -77,10 +77,16 @@ button {
   justify-content: space-between;
 }
 
+ul {
+  padding-left: 0;
+  margin-left: 0;
+}
+
 .todo-item {
   list-style: none;
   color: #8b98a7;
-  padding-left: 0;
+  padding: 0.5em 0;
+  width: 100px;
 }
 
 .todo-item-container button {

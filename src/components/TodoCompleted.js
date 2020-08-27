@@ -4,7 +4,8 @@ import { getSpecificItem, setCompletedItems } from "../actions/itemActions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { handleLocalStorage } from "../utils/handleLocalStorage";
-import { deleteTodoLocalStorageItem } from "../utils/deleteLocalStorageItem";
+import { deleteLocalStorageItem } from "../utils/deleteLocalStorageItem";
+import { moveItems } from "../utils/moveItems";
 import { v4 as uuid } from "uuid";
 import CheckedCheckbox from "../images/checked.svg";
 
@@ -65,8 +66,8 @@ function TodoList(props) {
   }
 
   // Provision to delete any todo item
-  function deleteItem(e, item) {
-    let listValue = deleteTodoLocalStorageItem(e, item);
+  function deleteItem(e) {
+    let listValue = deleteLocalStorageItem(e, "todo");
     if (props.item.sorting) {
       handleLocalStorage();
     }
@@ -74,18 +75,7 @@ function TodoList(props) {
   }
 
   const handleMove = (id, direction) => {
-    const position = props.item.completedItems.findIndex((i) => i.id === id);
-    if (position < 0) {
-      throw new Error("Given item not found.");
-    } else if (
-      (direction === UP && position === 0) ||
-      (direction === DOWN && position === props.item.completedItems.length - 1)
-    ) {
-      return; // cannot move outside of array
-    }
-    const item = props.item.completedItems[position]; // save item for later
-    const newItems = props.item.completedItems.filter((i) => i.id !== id); // remove item from array
-    newItems.splice(position + direction, 0, item);
+    let newItems = moveItems(id, direction, props.item.completedItems);
     props.setCompletedItems(newItems);
     localStorage.setItem("todo", JSON.stringify(newItems));
   };
