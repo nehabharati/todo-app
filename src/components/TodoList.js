@@ -1,4 +1,4 @@
-import React, { useState, Component, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import {
   addItem,
@@ -8,49 +8,43 @@ import {
 } from "../actions/itemActions";
 import { v4 as uuid } from "uuid";
 import { handleLocalStorage } from "../utils/handleLocalStorage";
+import { deleteListLocalStorageItem } from "../utils/deleteLocalStorageItem";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrashAlt, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import UncheckedCheckbox from "../images/not-checked.svg";
 
 function TodoList(props) {
-  const [todoList, setTodoList] = useState([
+  const [todoList] = useState([
     {
       id: uuid(),
       name: "Buy groceries",
     },
   ]);
+  const [image] = useState(UncheckedCheckbox);
+  const [movableItems, setMovableItems] = useState(props.item.items);
+
+  const UP = -1;
+  const DOWN = 1;
 
   useEffect(() => {
     const list = JSON.parse(localStorage.getItem("list"));
     if (JSON.parse(localStorage.getItem("list"))) {
       props.setTodoItems(list);
+    } else {
+      localStorage.setItem("list", JSON.stringify(todoList));
     }
-
-    // else {
-    console.log("hi");
-    props.setCompletedItems(list);
-    // }
-    // setTodoList(list);
   }, []);
-
-  useEffect(() => {
-    const list = JSON.parse(localStorage.getItem("list"));
-    props.setTodoItems(list);
-  }, [props.item.specificItem, localStorage.list]);
 
   function completeItem(e, item) {
     let index = e.target.getAttribute("data-key");
     props.getSpecificItem(item);
-
     let listValue = JSON.parse(localStorage.getItem("list"));
     listValue.splice(index, 1);
-
     localStorage.setItem("list", JSON.stringify(listValue));
-
     if (props.item.sorting) {
       handleLocalStorage();
     }
     props.setTodoItems(listValue);
-    setTodoList(listValue);
 
     if (localStorage.getItem("todo") == null) {
       const completedItem = [];
@@ -65,63 +59,57 @@ function TodoList(props) {
     }
   }
 
-  console.log(todoList, props.item.items);
+  function deleteItem(e, item) {
+    let listValue = deleteListLocalStorageItem(e, item);
+    if (props.item.sorting) {
+      handleLocalStorage();
+    }
+    props.setTodoItems(listValue);
+  }
+
+  const handleMove = (id, direction) => {
+    const position = props.item.items.findIndex((i) => i.id === id);
+    if (position < 0) {
+      throw new Error("Given item not found.");
+    } else if (
+      (direction === UP && position === 0) ||
+      (direction === DOWN && position === props.item.items.length - 1)
+    ) {
+      return; // cannot move outside of array
+    }
+    const item = props.item.items[position]; // save item for later
+    const newItems = props.item.items.filter((i) => i.id !== id); // remove item from array
+    newItems.splice(position + direction, 0, item);
+    props.setTodoItems(newItems);
+    localStorage.setItem("list", JSON.stringify(newItems));
+  };
+
   return (
     <div>
       <h2>Todo</h2>
-
       <ul>
         {props.item.items.map((todo, index) => (
           <div className="todo-item-container" key={`${todo.id}-${todo.name}`}>
-            <input
-              type="checkbox"
+            <img
+              src={image}
+              alt="Unchecked checkbox"
               data-key={index}
-              onChange={(e) => completeItem(e, todo)}
-              checked
+              onClick={(e) => completeItem(e, todo)}
+              style={{ marginRight: "10px" }}
             />
             <li className="todo-item">{todo.name}</li>
+            <div className="arrows">
+              <a onClick={() => handleMove(todo.id, UP)}>&#x25B2;</a>
+              <a onClick={() => handleMove(todo.id, DOWN)}>&#x25BC;</a>
+            </div>
+            <button data-key={index} onClick={(e) => deleteItem(e, todo)}>
+              <FontAwesomeIcon
+                icon={faTrashAlt}
+                style={{ color: "#c22a22", float: "right" }}
+              />
+            </button>
           </div>
         ))}
-        {
-          // props.item.items ?
-          // props.item.items.map((todo, index) => (
-          //   <div
-          //     className="todo-item-container"
-          //     key={`${todo.id}-${todo.name}`}
-          //   >
-          //     <input
-          //       type="checkbox"
-          //       data-key={index}
-          //       onClick={(e) => completeItem(e, todo)}
-          //     />
-          //     <span className="active-item">
-          //       <li className="todo-item">{todo.name}</li>
-          //       <FontAwesomeIcon
-          //         icon={faTrashAlt}
-          //         style={{
-          //           color: "#8b98a7",
-          //           display: "flex",
-          //           justifySelf: "flex-end",
-          //         }}
-          //       />
-          //     </span>
-          //   </div>
-          // ))
-          //   :
-          // todoList.map((todo, index) => (
-          //   <div
-          //     className="todo-item-container"
-          //     key={`${todo.id}-${todo.name}`}
-          //   >
-          //     <input
-          //       type="checkbox"
-          //       data-key={index}
-          //       onClick={(e) => completeItem(e, todo)}
-          //     />
-          //     <li className="todo-item">{todo.name}</li>
-          //   </div>
-          // ))
-        }
       </ul>
     </div>
   );

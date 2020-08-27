@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { v4 as uuid } from "uuid";
 import useSortableData from "../hooks/useSortableData";
@@ -11,6 +11,8 @@ import {
   setCompletedItems,
 } from "../actions/itemActions";
 import { handleLocalStorage } from "../utils/handleLocalStorage";
+import AddImage from "../images/add-blue.svg";
+import GrayAddImage from "../images/add-gray.svg";
 
 function Todo(props) {
   const [itemName, setItemName] = useState("");
@@ -22,7 +24,9 @@ function Todo(props) {
     requestCompletedSort,
     sortSortedConfig,
   } = useSortableCompletedData(todoCompletedItems);
+  const [image, setImage] = useState(AddImage);
 
+  // Initializing data to be sorted
   useEffect(() => {
     if (JSON.parse(localStorage.getItem("list"))) {
       let list = JSON.parse(localStorage.getItem("list"));
@@ -30,11 +34,11 @@ function Todo(props) {
     }
     if (JSON.parse(localStorage.getItem("todo"))) {
       let todo = JSON.parse(localStorage.getItem("todo"));
-
       setTodoCompletedItems(todo);
     }
   }, []);
 
+  // Reintialize data to sort if localStorage updates
   useEffect(() => {
     if (JSON.parse(localStorage.getItem("list"))) {
       let list = JSON.parse(localStorage.getItem("list"));
@@ -42,19 +46,19 @@ function Todo(props) {
     }
     if (JSON.parse(localStorage.getItem("todo"))) {
       let todo = JSON.parse(localStorage.getItem("todo"));
-
       setTodoCompletedItems(todo);
     }
   }, [localStorage.list, localStorage.todo]);
 
+  // Set the state with sorted data
   useEffect(() => {
     props.setTodoItems(items);
     props.setCompletedItems(completedItems);
-    console.log(items, completedItems);
   }, [items, completedItems]);
 
   const onChange = (e) => {
     setItemName(e.target.value);
+    e.target.value ? setImage(GrayAddImage) : setImage(AddImage);
   };
 
   // Tells what is the field we want to sort
@@ -74,6 +78,7 @@ function Todo(props) {
       : undefined;
   };
 
+  // Add new item to todo list and set it to localStorage and state
   const handleSubmit = (e) => {
     e.preventDefault();
     const form = e.currentTarget;
@@ -94,8 +99,6 @@ function Todo(props) {
 
     const list = JSON.parse(localStorage.getItem("list"));
     const todo = JSON.parse(localStorage.getItem("todo"));
-
-    console.log(list, todo);
     props.addItem(newItem);
     props.setCompletedItems(todo);
     props.setTodoItems(list);
@@ -108,12 +111,13 @@ function Todo(props) {
       <form onSubmit={handleSubmit}>
         <div className="todo-container">
           <div className="input-todo">
-            <img src={require("../images/add-blue.svg")} alt="Add icon" />
+            <img src={image} alt="Add icon" />
             <input
               type="text"
               placeholder="Add a task"
               onChange={onChange}
-              size="20"
+              maxLength="20"
+              // size={40}
             />
           </div>
           <button type="submit">Add</button>

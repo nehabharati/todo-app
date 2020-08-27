@@ -2,6 +2,7 @@
 
 body {
   font-family: "Open Sans", sans-serif;
+  background-color: #fcfcfc;
 }
 
 h1 {
@@ -20,7 +21,10 @@ h1 {
 
 .items {
   display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: space-evenly;
+  width: 100%;
 }
 
 /* Todo component styles */
@@ -41,6 +45,7 @@ input {
   font-size: 1rem;
   border: none;
   color: #8b98a7;
+  width: 200px;
 }
 
 input::placeholder {
@@ -56,8 +61,8 @@ button {
   background-color: #0082d4;
   color: white;
   border: none;
-  margin: 0 1em;
-  padding: 0 2em;
+  margin-left: 0.5em;
+  padding: 0 1em;
   font-size: 1rem;
 }
 
@@ -65,10 +70,6 @@ button {
 .todo-item-container {
   display: flex;
   align-items: center;
-}
-
-ul {
-  /* width: 300px; */
 }
 
 .active-item {
@@ -79,12 +80,17 @@ ul {
 .todo-item {
   list-style: none;
   color: #8b98a7;
+  padding-left: 0;
 }
 
-input[type="checkbox"] {
-  transform: scale(1.3);
-  border-radius: 50px;
-  margin-right: 10px;
+.todo-item-container button {
+  background-color: white;
+  padding: 0;
+}
+
+.todo-item-container button:hover,
+.todo-item-container button:focus {
+  outline: none;
 }
 
 h2 {
@@ -92,4 +98,18 @@ h2 {
   font-size: 20px;
   color: #8b98a7;
   text-align: center;
+}
+
+.arrows {
+  color: #8b98a7;
+  margin-left: 30px;
+}
+
+@media (min-width: 640px) {
+  .items {
+    flex-direction: row;
+  }
+  input {
+    width: 400px;
+  }
 }

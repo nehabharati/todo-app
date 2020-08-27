@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import { useState, useMemo } from "react";
 
 export default function useSortableCompletedData(items, config = null) {
   const [sortSortedConfig, setSortConfig] = useState(config);
@@ -17,16 +17,9 @@ export default function useSortableCompletedData(items, config = null) {
     }
     return sortableItems;
   }, [items, sortSortedConfig]);
-  console.log("sorting...");
+
   const requestCompletedSort = (key) => {
     let direction = "ascending";
-    // if (
-    //   sortSortedConfig &&
-    //   sortSortedConfig.key === key &&
-    //   sortSortedConfig.direction === "ascending"
-    // ) {
-    //   direction = "descending";
-    // }
     setSortConfig({ key, direction });
   };
 
