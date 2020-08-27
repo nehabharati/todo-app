@@ -41,7 +41,7 @@ function Todo(props) {
 
   // Reintialize data to sort if localStorage updates
   useEffect(() => {
-    if (!props.item.moving || props.item.sorting) {
+    if (props.item.moving) {
       if (JSON.parse(localStorage.getItem("list"))) {
         let list = JSON.parse(localStorage.getItem("list"));
         setTodoItems(list);
@@ -55,7 +55,7 @@ function Todo(props) {
 
   // Set the state with sorted data
   useEffect(() => {
-    if (!props.item.moving || props.item.sorting) {
+    if (props.item.moving) {
       props.setTodoItems(items);
       props.setCompletedItems(completedItems);
     }
@@ -131,7 +131,6 @@ function Todo(props) {
               requestSort("name");
               requestCompletedSort("name");
               props.toggleSort(true);
-              props.toggleMove(false);
               props.setRequestSort("name");
               handleLocalStorage();
             }}
@@ -144,10 +143,6 @@ function Todo(props) {
           </button>
         </div>
       </form>
-      <div className="heading">
-        <h2>Todo</h2>
-        <h2>Completed</h2>
-      </div>
     </div>
   );
 }

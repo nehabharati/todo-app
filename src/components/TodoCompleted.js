@@ -99,6 +99,7 @@ function TodoList(props) {
 
   return (
     <div>
+      <h2>Completed</h2>
       {props.item.completedItems.length === 0 && (
         <h2 className="empty-container">No items here!</h2>
       )}
