@@ -5,6 +5,7 @@ import {
   SET_COMPLETED_ITEMS,
   TOGGLE_SORT,
   REQUEST_SORT,
+  SET_MOVING,
 } from "../actions/types";
 
 const initialState = {
@@ -13,6 +14,7 @@ const initialState = {
   specificItem: {},
   requestSort: "",
   sorting: false,
+  moving: false,
 };
 
 export default function (state = initialState, action) {
@@ -45,7 +47,12 @@ export default function (state = initialState, action) {
     case TOGGLE_SORT:
       return {
         ...state,
-        sorting: true,
+        sorting: action.payload,
+      };
+    case SET_MOVING:
+      return {
+        ...state,
+        moving: action.payload,
       };
     default:
       return state;

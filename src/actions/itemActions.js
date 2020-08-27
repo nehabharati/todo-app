@@ -5,6 +5,7 @@ import {
   SET_COMPLETED_ITEMS,
   TOGGLE_SORT,
   REQUEST_SORT,
+  SET_MOVING,
 } from "./types";
 
 export const setTodoItems = (items) => {
@@ -42,8 +43,16 @@ export const getSpecificItem = (item) => {
   };
 };
 
-export const toggleSort = () => {
+export const toggleSort = (condition) => {
   return {
     type: TOGGLE_SORT,
+    payload: condition,
+  };
+};
+
+export const toggleMove = (condition) => {
+  return {
+    type: SET_MOVING,
+    payload: condition,
   };
 };

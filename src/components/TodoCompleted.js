@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { getSpecificItem, setCompletedItems } from "../actions/itemActions";
+import {
+  getSpecificItem,
+  setCompletedItems,
+  toggleMove,
+  toggleSort,
+} from "../actions/itemActions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { handleLocalStorage } from "../utils/handleLocalStorage";
 import { deleteLocalStorageItem } from "../utils/deleteLocalStorageItem";
-import { moveItems } from "../utils/moveItems";
 import { v4 as uuid } from "uuid";
 import CheckedCheckbox from "../images/checked.svg";
 
@@ -16,7 +20,7 @@ function TodoList(props) {
       name: "Buy desk",
     },
   ]);
-  const [image, setImage] = useState(CheckedCheckbox);
+  const [image] = useState(CheckedCheckbox);
 
   const UP = -1;
   const DOWN = 1;
@@ -75,14 +79,29 @@ function TodoList(props) {
   }
 
   const handleMove = (id, direction) => {
-    let newItems = moveItems(id, direction, props.item.completedItems);
+    const position = props.item.completedItems.findIndex((i) => i.id === id);
+    if (position < 0) {
+      throw new Error("Given item not found.");
+    } else if (
+      (direction === UP && position === 0) ||
+      (direction === DOWN && position === props.item.completedItems.length - 1)
+    ) {
+      return; // cannot move outside of array
+    }
+    const item = props.item.completedItems[position]; // save item for later
+    const newItems = props.item.completedItems.filter((i) => i.id !== id); // remove item from array
+    newItems.splice(position + direction, 0, item);
     props.setCompletedItems(newItems);
     localStorage.setItem("todo", JSON.stringify(newItems));
+    props.toggleSort(false);
+    props.toggleMove(true);
   };
 
   return (
     <div>
-      {/* <h2>Completed</h2> */}
+      {props.item.completedItems.length === 0 && (
+        <h2 className="empty-container">No items here!</h2>
+      )}
       <ul>
         {props.item.completedItems.map((todo, index) => (
           <div className="todo-item-container" key={`${todo.id}-${todo.name}`}>
@@ -129,4 +148,6 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, {
   getSpecificItem,
   setCompletedItems,
+  toggleMove,
+  toggleSort,
 })(TodoList);

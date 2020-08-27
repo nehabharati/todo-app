@@ -24,7 +24,7 @@ h1 {
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
-  width: 100%;
+  width: 80%;
 }
 
 /* Todo component styles */
@@ -69,13 +69,19 @@ button {
 .heading {
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-between;
+  margin: 0 4em;
 }
 
 /* ToDoList component styles */
 .todo-item-container {
   display: flex;
   align-items: center;
+}
+
+.todo {
+  display: flex;
+  justify-content: center;
 }
 
 .active-item {
@@ -110,12 +116,38 @@ h2 {
   font-size: 20px;
   color: #8b98a7;
   text-align: center;
-  position: sticky;
 }
 
 .arrows {
   color: #8b98a7;
   margin-left: 30px;
+}
+
+.arrows a {
+  cursor: default;
+}
+
+.empty-container {
+  /* textAlign: "center",
+  display: "flex",
+  justifyContent: "center",
+  width: "150px", */
+  animation: 1s ease 0s normal forwards 1 fadein;
+}
+
+@keyframes fadein {
+  0% {
+    display: none;
+    opacity: 0;
+  }
+  66% {
+    display: none;
+    opacity: 0;
+  }
+  100% {
+    display: block;
+    opacity: 1;
+  }
 }
 
 @media (min-width: 640px) {

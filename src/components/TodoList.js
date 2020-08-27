@@ -5,11 +5,12 @@ import {
   getSpecificItem,
   setCompletedItems,
   setTodoItems,
+  toggleMove,
+  toggleSort,
 } from "../actions/itemActions";
 import { v4 as uuid } from "uuid";
 import { handleLocalStorage } from "../utils/handleLocalStorage";
 import { deleteLocalStorageItem } from "../utils/deleteLocalStorageItem";
-import { moveItems } from "../utils/moveItems";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import UncheckedCheckbox from "../images/not-checked.svg";
@@ -68,14 +69,29 @@ function TodoList(props) {
   }
 
   const handleMove = (id, direction) => {
-    let newItems = moveItems(id, direction, props.item.items);
+    const position = props.item.items.findIndex((i) => i.id === id);
+    if (position < 0) {
+      throw new Error("Given item not found.");
+    } else if (
+      (direction === UP && position === 0) ||
+      (direction === DOWN && position === props.item.items.length - 1)
+    ) {
+      return; // cannot move outside of array
+    }
+    const item = props.item.items[position]; // save item for later
+    const newItems = props.item.items.filter((i) => i.id !== id); // remove item from array
+    newItems.splice(position + direction, 0, item);
     props.setTodoItems(newItems);
     localStorage.setItem("list", JSON.stringify(newItems));
+    props.toggleSort(false);
+    props.toggleMove(true);
   };
 
   return (
     <div>
-      {/* <h2>Todo</h2> */}
+      {props.item.items.length === 0 && (
+        <h2 className="empty-container">No items here!</h2>
+      )}
       <ul>
         {props.item.items.map((todo, index) => (
           <div className="todo-item-container" key={`${todo.id}-${todo.name}`}>
@@ -115,4 +131,6 @@ export default connect(mapStateToProps, {
   getSpecificItem,
   setCompletedItems,
   setTodoItems,
+  toggleMove,
+  toggleSort,
 })(TodoList);

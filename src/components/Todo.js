@@ -9,6 +9,7 @@ import {
   toggleSort,
   setRequestSort,
   setCompletedItems,
+  toggleMove,
 } from "../actions/itemActions";
 import { handleLocalStorage } from "../utils/handleLocalStorage";
 import AddImage from "../images/add-blue.svg";
@@ -40,20 +41,24 @@ function Todo(props) {
 
   // Reintialize data to sort if localStorage updates
   useEffect(() => {
-    if (JSON.parse(localStorage.getItem("list"))) {
-      let list = JSON.parse(localStorage.getItem("list"));
-      setTodoItems(list);
-    }
-    if (JSON.parse(localStorage.getItem("todo"))) {
-      let todo = JSON.parse(localStorage.getItem("todo"));
-      setTodoCompletedItems(todo);
+    if (!props.item.moving || props.item.sorting) {
+      if (JSON.parse(localStorage.getItem("list"))) {
+        let list = JSON.parse(localStorage.getItem("list"));
+        setTodoItems(list);
+      }
+      if (JSON.parse(localStorage.getItem("todo"))) {
+        let todo = JSON.parse(localStorage.getItem("todo"));
+        setTodoCompletedItems(todo);
+      }
     }
   }, [localStorage.list, localStorage.todo]);
 
   // Set the state with sorted data
   useEffect(() => {
-    props.setTodoItems(items);
-    props.setCompletedItems(completedItems);
+    if (!props.item.moving || props.item.sorting) {
+      props.setTodoItems(items);
+      props.setCompletedItems(completedItems);
+    }
   }, [items, completedItems]);
 
   const onChange = (e) => {
@@ -125,7 +130,8 @@ function Todo(props) {
             onClick={() => {
               requestSort("name");
               requestCompletedSort("name");
-              props.toggleSort();
+              props.toggleSort(true);
+              props.toggleMove(false);
               props.setRequestSort("name");
               handleLocalStorage();
             }}
@@ -158,4 +164,5 @@ export default connect(mapStateToProps, {
   toggleSort,
   setRequestSort,
   setCompletedItems,
+  toggleMove,
 })(Todo);
