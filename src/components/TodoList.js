@@ -58,6 +58,7 @@ function TodoList(props) {
       localStorage.setItem("todo", JSON.stringify(completedItem));
       handleLocalStorage();
     }
+    props.toggleSort(true);
   }
 
   function deleteItem(e) {
@@ -84,7 +85,6 @@ function TodoList(props) {
     props.setTodoItems(newItems);
     localStorage.setItem("list", JSON.stringify(newItems));
     props.toggleSort(false);
-    props.toggleMove(true);
   };
 
   return (
