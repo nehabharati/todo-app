@@ -63,6 +63,7 @@ function Todo(props) {
 
   const onChange = (e) => {
     setItemName(e.target.value);
+    console.log(e.target.value)
     e.target.value ? setImage(GrayAddImage) : setImage(AddImage);
   };
 
@@ -107,9 +108,10 @@ function Todo(props) {
     props.addItem(newItem);
     props.setCompletedItems(todo);
     props.setTodoItems(list);
+    setItemName("")
     form.reset();
   };
-
+  console.log(itemName)
   return (
     <div>
       <h1>Tasks</h1>
@@ -124,7 +126,7 @@ function Todo(props) {
               maxLength="20"
             />
           </div>
-          <button type="submit">Add</button>
+          {itemName ? (<button type="submit">Add</button>) : (<button type="button" disabled>Add</button>)}
           <button
             type="button"
             onClick={() => {

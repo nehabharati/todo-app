@@ -10,6 +10,7 @@ h1 {
   text-align: left;
   font-size: 36px;
   color: #444;
+  margin-top: 2em;
 }
 
 .App {
@@ -77,6 +78,10 @@ button {
 .todo-item-container {
   display: flex;
   align-items: center;
+  border: 2px solid #ddd;
+  padding: 0.5em 1em;
+  border-radius: 5px;
+  margin: 0.5em 0;
 }
 
 .todo {
@@ -116,6 +121,7 @@ h2 {
   font-size: 20px;
   color: #8b98a7;
   text-align: center;
+  margin-top: 2em;
 }
 
 .arrows {
@@ -166,5 +172,11 @@ h2 {
 @media (min-width: 1300px) {
   .items {
     width: 50%;
+  }
+}
+@media (max-width:450px) {
+  .input-todo {
+    display: flex;
+    width: 150px;
   }
 }
